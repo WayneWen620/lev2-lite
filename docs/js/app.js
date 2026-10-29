@@ -609,7 +609,7 @@ function numIn(bind, value, { type = 'wan', step = 'any', label = '', placeholde
   if (value != null && value !== '' && !(type !== 'price' && value === 0 && placeholder)) {
     v = type === 'wan' ? +(value / 1e4).toFixed(4) : type === 'pct' ? +(value * 100).toFixed(4) : value;
   }
-  const mode = type === 'int' ? 'numeric' : 'decimal';
+  const mode = 'decimal';
   return `<input type="number" inputmode="${mode}" step="${step}" min="0" data-bind="${bind}" data-type="${type}" value="${v}" placeholder="${esc(placeholder)}" aria-label="${esc(label)}">`;
 }
 
@@ -626,7 +626,7 @@ function assetsHtml() {
     return `<div class="field-row wide">
       <div><b>${sec.symbol}</b><span class="tag ${sec.category}">${CATEGORY_LABEL[sec.category]}</span>
         <div class="meta num">${esc(sec.name)} · ${p.price != null ? `${fmtPrice(p.price)}（${esc(p.label)}）` : '無股價'}</div></div>
-      ${numIn(`holdings.${i}.shares`, h.shares || '', { type: 'int', step: '1', label: `${sec.symbol} 股數`, placeholder: '0' })}
+      ${numIn(`holdings.${i}.shares`, h.shares || '', { type: 'int', step: 'any', label: `${sec.symbol} 股數`, placeholder: '0' })}
       ${numIn(`holdings.${i}.manualPrice`, h.manualPrice, { type: 'price', step: '0.01', label: `${sec.symbol} 手動股價`, placeholder: '手動價' })}
     </div>`;
   }).join('');
@@ -990,7 +990,7 @@ function parseInput(el) {
   if (raw === '') return t === 'price' || el.dataset.bind === 'expense.annualOverride' ? null : 0;
   const n = Number(raw);
   if (!isFinite(n) || n < 0) return undefined;
-  if (t === 'int') return Math.floor(n);
+  if (t === 'int') return n;
   if (t === 'wan') return Math.round(n * 1e4);
   if (t === 'pct') return n / 100;
   if (t === 'price') return n > 0 ? n : null;
