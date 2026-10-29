@@ -1,0 +1,25 @@
+name = "lev2-worker"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+# ① 你的網站網址（只填到 .github.io，不含 /lev2-lite）；多個用逗號分隔
+ALLOWED_ORIGIN = "https://你的帳號.github.io"
+# ② 通知訊息裡的「開啟 App」連結
+APP_URL = "https://你的帳號.github.io/lev2-lite/"
+
+[[kv_namespaces]]
+binding = "LEV2"
+# ③ 執行 npx wrangler kv namespace create LEV2，把印出的 id 貼在這裡
+id = "請貼上-KV-namespace-id"
+
+# 盤中每 10 分鐘檢查一次（UTC 01:00–05:59 ＝ 台北 09:00–13:59，程式內再限制到 13:35）
+[triggers]
+crons = ["*/10 1-5 * * MON-FRI"]
+
+# 機密設定（不要寫在這個檔案）：用指令設定
+#   npx wrangler secret put NOTIFY_KEY
+#   npx wrangler secret put TELEGRAM_BOT_TOKEN
+#   npx wrangler secret put TELEGRAM_CHAT_ID
+#   npx wrangler secret put RESEND_API_KEY        （Email 下跌提醒）
+# 選填：MAIL_FROM = "正二配置 <alert@你的網域>"（Resend 驗證網域後才能用）

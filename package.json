@@ -1,0 +1,9 @@
+{
+  "name": "lev2-lite",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "build:worker": "node scripts/build-worker.mjs"
+  }
+}

@@ -1,0 +1,15 @@
+# 每次推送程式碼時自動執行測試（Excel 驗算、加密、Worker）。
+# 網站發布由 GitHub Pages 直接讀 docs/ 資料夾，不靠這個流程。
+name: test
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
